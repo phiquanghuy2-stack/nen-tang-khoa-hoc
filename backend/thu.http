@@ -1,0 +1,116 @@
+@base = http://localhost:3000/api
+# Đổi 2 số này cho khớp với id đang có trong database
+@khoaId = 2
+@baiId = 1
+
+### 0. Ping — backend và MySQL còn sống không?
+GET {{base}}/ping
+
+### 1. Danh sách
+GET {{base}}/khoahoc
+
+### 2. Lọc theo cấp độ — phải CHỈ ra khóa toeic
+GET {{base}}/khoahoc?capDo=toeic
+
+### 3. Một khóa
+GET {{base}}/khoahoc/{{khoaId}}
+
+### 4. Không tồn tại — phải 404
+GET {{base}}/khoahoc/9999
+
+### 5. Thiếu tiêu đề — phải 400
+POST {{base}}/khoahoc
+Content-Type: application/json
+
+{
+  "capDo": "lop12"
+}
+
+### 6. Tạo mới — phải 201
+POST {{base}}/khoahoc
+Content-Type: application/json
+
+{
+  "tieuDe": "Thử tạo khóa học",
+  "moTa": "Mô tả thử",
+  "gia": 199000,
+  "capDo": "lop11",
+  "trangThai": "xuatban"
+}
+
+### 7. Sửa khóa không tồn tại — phải 404
+PUT {{base}}/khoahoc/9999
+Content-Type: application/json
+
+{
+  "gia": 123000
+}
+
+### 8. Sửa một phần — chỉ đổi giá, tiêu đề phải GIỮ NGUYÊN
+PUT {{base}}/khoahoc/{{khoaId}}
+Content-Type: application/json
+
+{
+  "gia": 555000
+}
+
+### 11. Lấy bài của khóa — lần đầu phải là mảng rỗng []
+GET {{base}}/khoahoc/{{khoaId}}/baihoc
+
+### 12. Lấy bài của khóa không tồn tại — phải 404, KHÔNG phải []
+GET {{base}}/khoahoc/9999/baihoc
+
+### 13. Thêm bài, không gửi thuTu — backend tự tính = 1
+POST {{base}}/khoahoc/{{khoaId}}/baihoc
+Content-Type: application/json
+
+{
+  "tieuDe": "Bài 1: Giới thiệu",
+  "videoUrl": "https://youtu.be/aaa",
+  "thoiLuong": 600,
+  "xemThu": true
+}
+
+### 14. Thêm bài thứ hai — thuTu tự thành 2
+POST {{base}}/khoahoc/{{khoaId}}/baihoc
+Content-Type: application/json
+
+{
+  "tieuDe": "Bài 2: Nội dung chính",
+  "noiDung": "Phần lý thuyết dài...",
+  "videoUrl": "https://youtu.be/bbb",
+  "thoiLuong": 1800
+}
+
+### 15. Thêm vào khóa không tồn tại — phải 404
+POST {{base}}/khoahoc/9999/baihoc
+Content-Type: application/json
+
+{ "tieuDe": "Bài ma" }
+
+### 16. Thiếu tiêu đề — phải 400
+POST {{base}}/khoahoc/{{khoaId}}/baihoc
+Content-Type: application/json
+
+{ "videoUrl": "https://youtu.be/ccc" }
+
+### 17. Danh sách lại — kiểm tra việc giấu dữ liệu
+GET {{base}}/khoahoc/{{khoaId}}/baihoc
+
+### 18. Lấy riêng một bài — ở đây videoUrl và noiDung phải HIỆN đủ
+GET {{base}}/baihoc/{{baiId}}
+
+### 19. Sửa mỗi thuTu — tieuDe phải còn nguyên
+PUT {{base}}/baihoc/{{baiId}}
+Content-Type: application/json
+
+{ "thuTu": 5 }
+
+### 20. Xóa bài, rồi chạy lại lần nữa phải 404
+DELETE {{base}}/baihoc/{{baiId}}
+
+### 21. Xóa khóa (để cuối vì xóa khóa là mất luôn bài của nó)
+DELETE {{base}}/khoahoc/{{khoaId}}
+
+### 22. Xóa lại — phải 404
+DELETE {{base}}/khoahoc/{{khoaId}}
