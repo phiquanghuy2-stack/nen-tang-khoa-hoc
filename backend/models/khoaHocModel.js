@@ -1,16 +1,23 @@
 const db = require("../config/db");
 
-async function layTatCa({ capDo } = {}) {
+// chiXuatBan = true: khách chỉ thấy khóa đã xuất bản, không thấy bản nháp
+async function layTatCa({ capDo, chiXuatBan = true } = {}) {
+  const dieuKien = [];
+  const thamSo = [];
+
   if (capDo) {
-    const [rows] = await db.query(
-      "SELECT * FROM khoahoc WHERE capDo = ? ORDER BY ngayTao DESC, id DESC",
-      [capDo],
-    );
-    return rows;
+    dieuKien.push("capDo = ?");
+    thamSo.push(capDo);
+  }
+  if (chiXuatBan) {
+    dieuKien.push("trangThai = 'xuatban'");
   }
 
+  const where = dieuKien.length ? `WHERE ${dieuKien.join(" AND ")}` : "";
+
   const [rows] = await db.query(
-    "SELECT * FROM khoahoc ORDER BY ngayTao DESC, id DESC",
+    `SELECT * FROM khoahoc ${where} ORDER BY ngayTao DESC, id DESC`,
+    thamSo,
   );
   return rows;
 }

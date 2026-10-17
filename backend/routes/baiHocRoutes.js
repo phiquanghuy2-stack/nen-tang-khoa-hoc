@@ -1,18 +1,16 @@
 const express = require("express");
 const controller = require("../controllers/baiHocController");
+const xacThuc = require("../middleware/xacThuc"); // THÊM
+const chiAdmin = require("../middleware/chiAdmin"); // THÊM
+const xacThucTuyChon = require("../middleware/xacThucTuyChon"); // THÊM
 
-// Router LỒNG — sẽ gắn vào /api/khoahoc/:khoaHocId/baihoc
-// mergeParams: true BẮT BUỘC, thiếu nó thì req.params.khoaHocId là undefined
 const routerLong = express.Router({ mergeParams: true });
-
 routerLong.get("/", controller.layTheoKhoaHoc);
-routerLong.post("/", controller.them);
+routerLong.post("/", xacThuc, chiAdmin, controller.them); // SỬA
 
-// Router PHẲNG — sẽ gắn vào /api/baihoc
 const routerPhang = express.Router();
-
-routerPhang.get("/:id", controller.layTheoId);
-routerPhang.put("/:id", controller.sua);
-routerPhang.delete("/:id", controller.xoa);
+routerPhang.get("/:id", xacThucTuyChon, controller.layTheoId); // SỬA
+routerPhang.put("/:id", xacThuc, chiAdmin, controller.sua); // SỬA
+routerPhang.delete("/:id", xacThuc, chiAdmin, controller.xoa); // SỬA
 
 module.exports = { routerLong, routerPhang };

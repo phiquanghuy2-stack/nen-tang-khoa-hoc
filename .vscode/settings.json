@@ -1,3 +1,27 @@
 {
-  "cSpell.language": "en,vi"
+  "cSpell.language": "en,vi",
+  "python.terminal.useEnvFile": true,
+  "cSpell.words": [
+    "baihoc",
+    "cuatoi",
+    "dangky",
+    "dangnhap",
+    "ghidanh",
+    "huyphi",
+    "khoahoc",
+    "khoahoccuatoi",
+    "Khóa",
+    "khóa",
+    "migrations",
+    "nguoidung",
+    "sinhvien",
+    "tatCa",
+    "thanhtoan",
+    "tiendo",
+    "trangthai",
+    "tuduy",
+    "vietqr",
+    "xuatban",
+    "youtu"
+  ]
 }

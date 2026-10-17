@@ -114,3 +114,234 @@ DELETE {{base}}/khoahoc/{{khoaId}}
 
 ### 22. Xóa lại — phải 404
 DELETE {{base}}/khoahoc/{{khoaId}}
+
+### 30. Đăng ký — phải 201, trả về nguoiDung + token
+# @name dangKy
+POST {{base}}/auth/dangky
+Content-Type: application/json
+
+{
+  "tenDangNhap": "huy",
+  "email": "huy@test.com",
+  "matKhau": "123456"
+}
+
+### 31. Đăng ký lại cùng email — phải 409
+POST {{base}}/auth/dangky
+Content-Type: application/json
+
+{
+  "tenDangNhap": "huy2",
+  "email": "huy@test.com",
+  "matKhau": "123456"
+}
+
+### 32. Trùng tên đăng nhập, email khác — phải 409, câu khác câu trên
+POST {{base}}/auth/dangky
+Content-Type: application/json
+
+{
+  "tenDangNhap": "huy",
+  "email": "khac@test.com",
+  "matKhau": "123456"
+}
+
+### 33. Mật khẩu ngắn — phải 400
+POST {{base}}/auth/dangky
+Content-Type: application/json
+
+{
+  "tenDangNhap": "ngan",
+  "email": "ngan@test.com",
+  "matKhau": "123"
+}
+
+### 34. Tự phong admin — phải 201 nhưng vaiTro VẪN là "user"
+POST {{base}}/auth/dangky
+Content-Type: application/json
+
+{
+  "tenDangNhap": "hacker",
+  "email": "hacker@test.com",
+  "matKhau": "123456",
+  "vaiTro": "admin"
+}
+
+### 35. Đăng nhập — phải 200
+# @name dangNhap
+POST {{base}}/auth/dangnhap
+Content-Type: application/json
+
+{
+  "email": "huy@test.com",
+  "matKhau": "123456"
+}
+
+### 36. Sai mật khẩu — phải 401
+POST {{base}}/auth/dangnhap
+Content-Type: application/json
+
+{
+  "email": "huy@test.com",
+  "matKhau": "sai-roi"
+}
+
+### 37. Email không tồn tại — phải 401, câu Y HỆT test 36
+POST {{base}}/auth/dangnhap
+Content-Type: application/json
+
+{
+  "email": "khongcoai@test.com",
+  "matKhau": "123456"
+}
+
+### 38. Tôi là ai — không token, phải 401
+GET {{base}}/auth/toi
+
+### 39. Tôi là ai — có token, phải 200
+GET {{base}}/auth/toi
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 40. Token rác — phải 401
+GET {{base}}/auth/toi
+Authorization: Bearer abc.xyz.123
+
+### 41. Xóa khóa học, không token — phải 401
+DELETE {{base}}/khoahoc/7
+
+### 42. Xóa khóa học, token của user thường — phải 403
+DELETE {{base}}/khoahoc/7
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 43. Xem danh sách, không token — vẫn 200 (công khai)
+GET {{base}}/khoahoc
+
+### 44. Xem bài bị khóa, không token — phải 401
+GET {{base}}/baihoc/{{baiId}}
+
+### 45. Xem bài bị khóa, user chưa mua — phải 403
+GET {{base}}/baihoc/{{baiId}}
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 50. Ghi danh, không token — phải 401
+POST {{base}}/ghidanh
+Content-Type: application/json
+
+{ "khoaHocId": {{khoaId}} }
+
+### 51. Trạng thái trước khi mua — daGhiDanh: false
+GET {{base}}/ghidanh/trangthai/{{khoaId}}
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 52. Ghi danh khóa có phí — phải 201, trangThaiThanhToan "cho", có thanhToan.qrUrl
+POST {{base}}/ghidanh
+Authorization: Bearer {{dangNhap.response.body.token}}
+Content-Type: application/json
+
+{ "khoaHocId": {{khoaId}} }
+
+### 53. Ghi danh lại — phải 409
+POST {{base}}/ghidanh
+Authorization: Bearer {{dangNhap.response.body.token}}
+Content-Type: application/json
+
+{ "khoaHocId": {{khoaId}} }
+
+### 54. Khóa không tồn tại — phải 404
+POST {{base}}/ghidanh
+Authorization: Bearer {{dangNhap.response.body.token}}
+Content-Type: application/json
+
+{ "khoaHocId": 9999 }
+
+### 55. Thiếu khoaHocId — phải 400
+POST {{base}}/ghidanh
+Authorization: Bearer {{dangNhap.response.body.token}}
+Content-Type: application/json
+
+{}
+
+### 56. Khóa học của tôi — phải thấy khóa vừa mua
+GET {{base}}/ghidanh/cuatoi
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 57. Xem bài bị khóa khi mới ghi danh (chưa duyệt) — vẫn 403
+GET {{base}}/baihoc/{{baiId}}
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+# ===== Mốc 7 + 8: cần 1 tài khoản admin =====
+# Chạy: npm run tao-admin -- admin@test.com  (sau khi đã đăng ký email đó)
+
+### 60. Đăng nhập admin
+# @name dangNhapAdmin
+POST {{base}}/auth/dangnhap
+Content-Type: application/json
+
+{
+  "email": "admin@test.com",
+  "matKhau": "123456"
+}
+
+### 61. User thường xem danh sách ghi danh — phải 403
+GET {{base}}/ghidanh
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 62. Admin xem các lượt đang chờ
+# @name dsCho
+GET {{base}}/ghidanh?trangThai=cho
+Authorization: Bearer {{dangNhapAdmin.response.body.token}}
+
+### 63. Trạng thái sai — phải 400
+PUT {{base}}/ghidanh/{{dsCho.response.body.0.id}}/trangthai
+Authorization: Bearer {{dangNhapAdmin.response.body.token}}
+Content-Type: application/json
+
+{ "trangThaiThanhToan": "linhTinh" }
+
+### 64. Admin từ chối
+PUT {{base}}/ghidanh/{{dsCho.response.body.0.id}}/trangthai
+Authorization: Bearer {{dangNhapAdmin.response.body.token}}
+Content-Type: application/json
+
+{ "trangThaiThanhToan": "tuChoi" }
+
+### 65. User gửi lại sau khi bị từ chối — phải 200, về lại "cho"
+POST {{base}}/ghidanh
+Authorization: Bearer {{dangNhap.response.body.token}}
+Content-Type: application/json
+
+{ "khoaHocId": {{khoaId}} }
+
+### 66. Admin duyệt
+PUT {{base}}/ghidanh/{{dsCho.response.body.0.id}}/trangthai
+Authorization: Bearer {{dangNhapAdmin.response.body.token}}
+Content-Type: application/json
+
+{ "trangThaiThanhToan": "daThanhToan" }
+
+### 67. Xem bài bị khóa sau khi được duyệt — giờ phải 200
+GET {{base}}/baihoc/{{baiId}}
+Authorization: Bearer {{dangNhap.response.body.token}}
+
+### 70. Admin thấy cả khóa nháp
+GET {{base}}/khoahoc?tatCa=1
+Authorization: Bearer {{dangNhapAdmin.response.body.token}}
+
+### 71. Khách thêm ?tatCa=1 — vẫn chỉ thấy khóa xuất bản
+GET {{base}}/khoahoc?tatCa=1
+
+### 72. Upload ảnh, không token — phải 401
+POST {{base}}/upload
+
+### 73. Upload ảnh (admin) — phải 201, trả { url }
+# Đổi đường dẫn ảnh cho đúng máy mày
+POST {{base}}/upload
+Authorization: Bearer {{dangNhapAdmin.response.body.token}}
+Content-Type: multipart/form-data; boundary=ranhgioi
+
+--ranhgioi
+Content-Disposition: form-data; name="anh"; filename="test.png"
+Content-Type: image/png
+
+< ../frontend/src/assets/hero.png
+--ranhgioi--

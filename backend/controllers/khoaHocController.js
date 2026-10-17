@@ -1,8 +1,16 @@
 const model = require("../models/khoaHocModel");
 
+function laAdmin(req) {
+  return req.nguoiDung?.vaiTro === "admin";
+}
+
 async function layTatCa(req, res) {
   try {
-    const ds = await model.layTatCa({ capDo: req.query.capDo });
+    // ?tatCa=1 chỉ có tác dụng với admin — để trang quản trị thấy cả bản nháp
+    const ds = await model.layTatCa({
+      capDo: req.query.capDo,
+      chiXuatBan: !(laAdmin(req) && req.query.tatCa),
+    });
     res.json(ds);
   } catch (err) {
     console.error("LỖI layTatCa:", err);
@@ -13,7 +21,8 @@ async function layTatCa(req, res) {
 async function layTheoId(req, res) {
   try {
     const kh = await model.layTheoId(req.params.id);
-    if (!kh) {
+    // Bản nháp thì giả vờ như không tồn tại với người ngoài
+    if (!kh || (kh.trangThai !== "xuatban" && !laAdmin(req))) {
       return res.status(404).json({ message: "Không tìm thấy khóa học" });
     }
     res.json(kh);

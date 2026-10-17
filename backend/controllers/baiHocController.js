@@ -1,5 +1,6 @@
 const model = require("../models/baiHocModel");
 const khoaHocModel = require("../models/khoaHocModel");
+const ghiDanhModel = require("../models/ghiDanhModel"); // THÊM
 
 async function layTheoKhoaHoc(req, res) {
   try {
@@ -22,7 +23,25 @@ async function layTheoId(req, res) {
     const bh = await model.layTheoId(req.params.id);
     if (!bh) return res.status(404).json({ message: "Không tìm thấy bài học" });
 
-    // TODO mốc 7: nếu !bh.xemThu thì phải kiểm tra người dùng đã ghi danh chưa
+    // Bài học thử: ai cũng xem được
+    if (bh.xemThu) return res.json(bh);
+
+    // Từ đây trở xuống là bài bị khóa
+    if (!req.nguoiDung) {
+      return res.status(401).json({ message: "Cần đăng nhập để xem bài này" });
+    }
+
+    if (req.nguoiDung.vaiTro === "admin") return res.json(bh);
+
+    const duocHoc = await ghiDanhModel.kiemTraDaGhiDanh(
+      req.nguoiDung.id,
+      bh.khoaHocId,
+    );
+
+    if (!duocHoc) {
+      return res.status(403).json({ message: "Bạn chưa mua khóa học này" });
+    }
+
     res.json(bh);
   } catch (err) {
     console.error("LOI baihoc layTheoId:", err);
