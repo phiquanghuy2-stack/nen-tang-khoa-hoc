@@ -61,7 +61,7 @@ function ThanhDieuHuong() {
                 Đăng nhập
               </Link>
               <Link to="/dangky" className="btn btn-primary btn-sm">
-                Đăng ký<span className="nav-label">&nbsp;miễn phí</span>
+                Đăng ký<span className="nav-label">miễn phí</span>
               </Link>
             </>
           )}

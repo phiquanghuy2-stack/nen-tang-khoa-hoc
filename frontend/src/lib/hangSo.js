@@ -1,11 +1,11 @@
 export const DANH_SACH_CAP_DO = [
-  { ma: "lop10", ten: "Lớp 10", ngan: "10", mau: ["#6366f1", "#8b5cf6"] },
-  { ma: "lop11", ten: "Lớp 11", ngan: "11", mau: ["#0ea5e9", "#6366f1"] },
-  { ma: "lop12", ten: "Lớp 12", ngan: "12", mau: ["#ec4899", "#8b5cf6"] },
-  { ma: "sinhvien", ten: "Sinh viên", ngan: "SV", mau: ["#14b8a6", "#0ea5e9"] },
-  { ma: "toeic", ten: "TOEIC", ngan: "TOEIC", mau: ["#f59e0b", "#ef4444"] },
-  { ma: "ielts", ten: "IELTS", ngan: "IELTS", mau: ["#ef4444", "#ec4899"] },
-  { ma: "tuduy", ten: "Tư duy", ngan: "Tư duy", mau: ["#10b981", "#14b8a6"] },
+  { ma: "lop10", ten: "Lớp 10", ngan: "10", mau: ["#10b981", "#047857"] },
+  { ma: "lop11", ten: "Lớp 11", ngan: "11", mau: ["#14b8a6", "#0f766e"] },
+  { ma: "lop12", ten: "Lớp 12", ngan: "12", mau: ["#22c55e", "#15803d"] },
+  { ma: "sinhvien", ten: "Sinh viên", ngan: "SV", mau: ["#06b6d4", "#0d9488"] },
+  { ma: "toeic", ten: "TOEIC", ngan: "TOEIC", mau: ["#84cc16", "#16a34a"] },
+  { ma: "ielts", ten: "IELTS", ngan: "IELTS", mau: ["#059669", "#065f46"] },
+  { ma: "tuduy", ten: "Tư duy", ngan: "Tư duy", mau: ["#65a30d", "#3f6212"] },
 ];
 
 export function layCapDo(ma) {

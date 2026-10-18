@@ -3,25 +3,25 @@
    ========================================================= */
 
 :root {
-  --bg: #f6f7fb;
+  --bg: #f4f8f5;
   --surface: #ffffff;
-  --surface-2: #f0f2f8;
-  --border: #e3e6f0;
-  --border-strong: #cfd4e3;
+  --surface-2: #edf4ef;
+  --border: #dfe8e2;
+  --border-strong: #c8d6cd;
 
-  --text: #151a2d;
-  --text-2: #565c78;
-  --text-3: #8b90a8;
+  --text: #11201a;
+  --text-2: #4f6358;
+  --text-3: #84958b;
 
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-soft: #eef0ff;
+  --primary: #059669;
+  --primary-hover: #047857;
+  --primary-soft: #e3f6ec;
   --primary-text: #ffffff;
 
   --accent: #f59e0b;
 
-  --success: #047857;
-  --success-soft: #e6f6ef;
+  --success: #15803d;
+  --success-soft: #e7f6e9;
   --warning: #b45309;
   --warning-soft: #fff4e0;
   --danger: #dc2626;
@@ -43,22 +43,22 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0c0e19;
-    --surface: #141728;
-    --surface-2: #1b1f35;
-    --border: #272c46;
-    --border-strong: #363c5c;
+    --bg: #09110d;
+    --surface: #101a15;
+    --surface-2: #16241d;
+    --border: #21332a;
+    --border-strong: #2f463a;
 
-    --text: #eceef8;
-    --text-2: #a6abc6;
-    --text-3: #747a98;
+    --text: #e7f2eb;
+    --text-2: #a2b6aa;
+    --text-3: #6d8377;
 
-    --primary: #7c74ff;
-    --primary-hover: #948dff;
-    --primary-soft: #23244f;
-    --primary-text: #ffffff;
+    --primary: #34d399;
+    --primary-hover: #6ee7b7;
+    --primary-soft: #123526;
+    --primary-text: #04231a;
 
-    --success: #34d399;
+    --success: #4ade80;
     --success-soft: #0f2f26;
     --warning: #fbbf24;
     --warning-soft: #33260c;
@@ -240,8 +240,8 @@ textarea {
   display: grid;
   place-items: center;
   color: #fff;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-  box-shadow: 0 6px 14px -4px rgba(99, 102, 241, 0.6);
+  background: linear-gradient(135deg, #34d399, #059669);
+  box-shadow: 0 6px 14px -4px rgba(5, 150, 105, 0.55);
 }
 
 .logo-accent {
@@ -298,7 +298,7 @@ textarea {
   font-size: 13px;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  background: linear-gradient(135deg, #a3e635, #10b981);
   text-transform: uppercase;
 }
 
@@ -687,12 +687,12 @@ select.input {
   border-bottom: 1px solid var(--border);
   background: radial-gradient(
       ellipse 60% 80% at 85% 0%,
-      color-mix(in srgb, #a855f7 16%, transparent),
+      color-mix(in srgb, #22c55e 16%, transparent),
       transparent
     ),
     radial-gradient(
       ellipse 50% 70% at 0% 100%,
-      color-mix(in srgb, #6366f1 14%, transparent),
+      color-mix(in srgb, #14b8a6 14%, transparent),
       transparent
     ),
     var(--surface);
@@ -719,7 +719,7 @@ select.input {
 }
 
 .hero h1 .gradient-text {
-  background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+  background: linear-gradient(90deg, #059669, #10b981, #84cc16);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -890,7 +890,7 @@ select.input {
   top: 12px;
   left: 12px;
   background: rgba(255, 255, 255, 0.92);
-  color: #151a2d;
+  color: #11201a;
   backdrop-filter: blur(6px);
 }
 
@@ -953,7 +953,7 @@ select.input {
 /* ---------- Chi tiết khóa học ---------- */
 
 .course-hero {
-  background: linear-gradient(135deg, #1e1b4b, #312e81 55%, #4c1d95);
+  background: linear-gradient(135deg, #022c22, #064e3b 55%, #065f46);
   color: #fff;
   padding: 40px 0 48px;
 }
@@ -1292,7 +1292,7 @@ a.lesson-row .lesson-state {
   height: 100%;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #1e1b4b, #4c1d95);
+  background: linear-gradient(135deg, #022c22, #065f46);
 }
 
 .lesson-heading {
@@ -1350,7 +1350,7 @@ a.lesson-row .lesson-state {
 
 .lesson-row.current .lesson-num {
   background: var(--primary);
-  color: #fff;
+  color: var(--primary-text);
 }
 
 /* ---------- Đăng nhập / đăng ký ---------- */
@@ -1702,7 +1702,7 @@ a.lesson-row .lesson-state {
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
+  background: linear-gradient(135deg, #059669, #84cc16);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
